@@ -3,22 +3,23 @@
 Try some visualize statistics open source solution.
 Implemnt these stuff while the August hackathon in GIS.FCU.
 
-* How to use
-  * Befor getting photos
+- Solutions we adopted
+ - flickr_api
+ - sqlite3: both in python and nodejs
+ - json api inspired by [workshopper/learnyounode](https://github.com/workshopper/learnyounode/blob/master/exercises/http_json_api_server/solution/solution.js)
 
+* How to use
 ```
 cd crawler/flickr_api
 ```
-
   * if u want to get interesting photos
 
 ```
 python geo_photos.py
 ```
 
-  * to get photos with specific keywords
- * The db schema
- 
+ * to get photos with specific keywords
+- The db schema
 We extract the metadat of photos into the SQLite DB.
   The schema is as follows:
     * id text,
