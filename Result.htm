@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Layout Example</title>
+    <title>Open your mind</title>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
     <script type="text/javascript" src="./js/jquery-latest.js"></script>
@@ -19,30 +19,216 @@
             padding: 0;
         }
     </style>
-    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?sensor=false&language=zh-tw"></script>
+    <!-- Add Google map marker cluster-->
+    <script src="./lib/markercluster.js"></script>
+    <script src="./data/data.js"></script>
+    <!-- Add jQuery library -->
+    <!--<script type="text/javascript" src="lib/jquery-1.10.2.js"></script>-->
+    <!-- Add fancyBox main JS and CSS files -->
+    <script type="text/javascript" src="./lib/fancybox/jquery.fancybox.js?v=2.1.5"></script>
+    <link rel="stylesheet" type="text/css" href="./lib/fancybox/jquery.fancybox.css?v=2.1.5"
+        media="screen" />
     <script>
-        var map;
-        function initialize() {
-            map = new google.maps.Map(document.getElementById('map-canvas'), {
-                zoom: 8,
-                center: { lat: 23.5, lng: 121 }
+        var _datas;
+        var _mapObject;
+
+        function ShowPicture(url) {
+            $.fancybox.open({
+                href: url,
+
+                autoSize: true,
+                autoScale: true,
+                fitToView: true,
+                autoScale: true,
+                padding: 5
             });
         }
 
-        google.maps.event.addDomListener(window, 'load', initialize);
+        function linkData(datas) {
+            var markers = [];
 
+
+            var divPhotoHeight = 60; // $("#photo").innerWidth()-2;
+
+            var divPhotoContent = "";
+
+            for (var numOfIndex in datas) {
+
+                divPhotoContent += "<div style='float: left; margin-left: 5px; padding-top:0px;  padding-bottom:0px'><img src='" +
+        datas[numOfIndex].url_l + "' width='" + divPhotoHeight * (4 / 3) + "'" +
+        +" height='" + divPhotoHeight + "'></div>";
+
+                var latLng = new google.maps.LatLng(datas[numOfIndex].latitude, datas[numOfIndex].longitude);
+                var marker = new google.maps.Marker({ 'position': latLng, index: numOfIndex });
+
+                google.maps.event.addListener(marker, 'click', function (e) {
+                    //fotorama.show(this.index);
+                    ShowPicture(_datas[this.index].url_l);
+                });
+
+                markers.push(marker);
+            }
+
+            $("#photo").html(divPhotoContent);
+
+            if (markers.length == 0) {
+                //$("#fotorama").html("您尚未上傳照片");
+            }
+            var markerCluster = new MarkerClusterer(_mapObject, markers);
+        }
+
+        //reload photo
+        function loadData() {
+            linkData(__datas);
+            return;
+
+            $.getJSON("./data/data.json", function (data) {
+
+            })
+            .done(function (datas) {
+                // _datas = datas;
+                linkData(datas);
+            })
+
+            .fail(function (err) {
+                if (err.status === 0) {
+                    alert('Failed to load data/basic.json.\nPlease run this example on a server.');
+                }
+                else {
+                    alert(err.status, 'Failed to load data/basic.json.');
+                }
+            });
+        }
+
+
+        //顯示事件位置
+        function showObject(index, zoom) {
+
+            if (_datas[index] == undefined) return;
+
+            var latLng = new google.maps.LatLng(_datas[index].Lat, _datas[index].Lng);
+
+            if (zoom) {
+                mapObject.setCenter(latLng);
+                //mapObject.setZoom(11);
+            }
+
+
+            if (_marker != undefined) {
+                _marker.setMap(null);
+                _marker = null;
+            }
+            var image = 'http://maps.google.com/mapfiles/kml/pal3/icon32.png';
+
+            _marker = new google.maps.Marker({ 'position': latLng, icon: image });
+            _marker.setMap(mapObject);
+
+
+            var request = $.ajax({
+                contentType: 'application/json; charset=utf-8',
+                cache: false,
+                url: 'Handler/GetEventPhoto.ashx',
+                data: { eventid: _datas[index].EventID }
+            });
+            request.done(function (datas) {
+
+                var htmlContent = "<div style='width:400px; height:300px'>拍攝時間:" + _datas[index].PhotoDate + "<br>照片來源:" + _datas[index].Source;
+                if (_datas[index].PageNumber != undefined && _datas[index].PageNumber != "")
+                    htmlContent += "<br>頁數:" + _datas[index].PageNumber;
+
+                if (_datas[index].Description != undefined && _datas[index].Description != "")
+                    htmlContent += "<br>照片說明:" + _datas[index].Description;
+
+                if (_datas[index].Note != undefined && _datas[index].Note != "")
+                    htmlContent += "<br>備註:" + _datas[index].Note;
+
+                htmlContent += "<hr>";
+                for (var k in datas) {
+                    htmlContent += "<a href=javascript:showPhoto('" + datas[k].img + "');><img src='" + datas[k].thumb + "' width='80%' height='80%'></a><br>"
+                }
+
+                htmlContent += "</div>";
+                //console.log(datas);
+                var infowindow = new google.maps.InfoWindow({
+                    content: htmlContent
+                });
+                infowindow.open(mapObject, _marker);
+            });
+
+            request.fail(function (err) {
+                console.log('Error', err);
+                if (err.status === 0) {
+                    alert('Failed to load data/basic.json.\nPlease run this example on a server.');
+                }
+                else {
+                    alert(err.status, 'Failed to load data/basic.json.');
+                }
+            });
+
+
+        }
+
+
+        //----------  document ready event : start---------------
+        $(document).ready(function () {
+            var topPosition = $(window).innerHeight() - 100;
+
+            $("#photo").css({ top: topPosition });
+
+            console.log($("#photo").innerWidth());
+        });
+        //----------  document ready event : end ---------------
+
+
+        //Set map center
+        function setCenter(lat, lng) {
+            var latLng = new google.maps.LatLng(lat, lng);
+            mapObject.setCenter(latLng);
+            mapObject.setZoom(15);
+
+            if (_marker != undefined) {
+                _marker.setMap(null);
+                _marker = null;
+            }
+
+            var image = 'http://maps.google.com/mapfiles/kml/pal4/icon21.png';
+
+            _marker = new google.maps.Marker({ 'position': latLng, icon: image });
+            _marker.setMap(mapObject);
+        }
+
+
+        // -----------oogle map initialize : start-----------
+        function initialize() {
+            var mapOptions = {
+                center: new google.maps.LatLng(23.5, 121),
+                zoom: 7,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+            _mapObject = new google.maps.Map(document.getElementById("map_canvas"),
+                   mapOptions);
+
+            loadData();
+
+        }
+        // -----------google map initialize : end-----------
+
+   
     </script>
 </head>
-<body>
+<body onload="initialize()">
     <div class="ui-layout-center">
-        <div id="map-canvas">
+        <div id="map_canvas">
         </div>
     </div>
     <!--<div class="ui-layout-north">North</div>-->
     <div class="ui-layout-south">
         Timeline</div>
     <div class="ui-layout-east">
-        Picture</div>
+        <div id="photo" style="width: 100%; height: 60px; position: fixed; background-color: #eeeeee">
+        </div>
+    </div>
     <!--<div class="ui-layout-west">West</div>-->
 </body>
 </html>
