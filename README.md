@@ -5,16 +5,21 @@ Implemnt these stuff while the August hackathon in GIS.FCU.
 
 * How to use
   * Befor getting photos
+
 ```
 cd crawler/flickr_api
 ```
-    * if u want to get interesting photos
+
+  * if u want to get interesting photos
+
 ```
 python geo_photos.py
 ```
-    * to get photos with specific keywords
-  * The db schema
-  We extract the metadat of photos into the SQLite DB.
+
+  * to get photos with specific keywords
+ * The db schema
+ 
+We extract the metadat of photos into the SQLite DB.
   The schema is as follows:
     * id text,
     * url_l text,
