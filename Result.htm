@@ -6,6 +6,44 @@
     <meta charset="utf-8">
     <script type="text/javascript" src="./js/jquery-latest.js"></script>
     <script type="text/javascript" src="./js/jquery.layout-latest.js"></script>
+    <script src="http://visjs.org/dist/vis.js"></script>
+    <link href="http://visjs.org/dist/vis.css" rel="stylesheet" type="text/css">
+    <style type="text/css">
+        body, html
+        {
+            font-family: sans-serif;
+            font-size: 10pt;
+        }
+        
+        .vis.timeline .item
+        {
+            border-color: #acacac;
+            background-color: #efefef;
+            box-shadow: 5px 5px 10px rgba(128,128,128, 0.3);
+        }
+        
+        table .description
+        {
+            font-style: italic;
+        }
+        
+        #visualization
+        {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .logo
+        {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+        }
+        .logo img
+        {
+            width: 120px;
+        }
+    </style>
     <script type="text/javascript">
         $(document).ready(function () {
             $('body').layout({ applyDemoStyles: true });
@@ -31,6 +69,7 @@
         media="screen" />
     <script>
         var _datas;
+        var timelineData = [];
         var map;
 
         function ShowPicture(url) {
@@ -68,6 +107,8 @@
                 });
 
                 markers.push(marker);
+
+                timelineData.push({ id: datas[numOfIndex].id, content: '<img id="' + datas[numOfIndex].id + '" src="' + datas[numOfIndex].url_l + '" style="width:50px; height:50px;" onclick="setImage(this);">', start: datas[numOfIndex].date_taken });
             }
 
             $("#photo").html(divPhotoContent);
@@ -80,8 +121,13 @@
 
         //reload photo
         function loadData() {
-//            linkData(__datas);
-//            return true;
+            linkData(__datas);
+
+            var container = document.getElementById('mytimeline');
+            var options = {};
+            var timeline = new vis.Timeline(container, timelineData, options);
+
+            return true;
 
 
             $.getJSON("data/data.json", function (data) {
@@ -198,6 +244,12 @@
             _marker = new google.maps.Marker({ 'position': latLng, icon: image });
             _marker.setMap(mapObject);
         }
+
+        function setImage(obj) {
+            
+            $("#imgSrc").attr("src", $("#" + obj.id).attr("src"));
+            
+        }
     </script>
     <script>
 
@@ -212,6 +264,7 @@
 
         google.maps.event.addDomListener(window, 'load', initialize);
         //google.maps.event.trigger(map, "resize");
+        
     </script>
 </head>
 <body>
@@ -223,8 +276,12 @@
     <div class="ui-layout-south">
         <!--<div id="photo" style="width: 100%; height: 60px; position: fixed; background-color: #eeeeee">
         </div>-->
+        <div id="mytimeline">
+        </div>
+    </div>
     </div>
     <div class="ui-layout-east">
+        <img id="imgSrc" alt="Open Source" width="100%" />
     </div>
     <!--<div class="ui-layout-west">West</div>-->
 </body>
