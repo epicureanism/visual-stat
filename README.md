@@ -3,8 +3,8 @@
 Try some visualize statistics open source solution.
 Implemnt these stuff while the August hackathon in GIS.FCU.
 
-## How to use
-### The db schema
+* How to use
+** The db schema
   id text,
   url_l text,
   title  text,
@@ -14,8 +14,8 @@ Implemnt these stuff while the August hackathon in GIS.FCU.
   date_upload text,
   date_taken text
 
-### About the json 
-#### Interface
+** About the json 
+*** Interface
 The format of criteria is like:
 ```javascript
 { 
@@ -23,7 +23,7 @@ The format of criteria is like:
   "date_taken": "2008-02-15/2009-03-14" //optional
 }
 ```
-#### The Photo in JSON
+*** The Photo in JSON
 ```javascript
 [{
   "id": "1234", 
@@ -36,14 +36,14 @@ The format of criteria is like:
 }]
 ```
 
-### to get photos
+** To get photos
 ```
 cd crawler/flickr_api
 ```
 
-#### to get interesting photos
+*** if u want to get interesting photos
 ```
 python geo_photos.py
 ```
 
-#### to get photos with specific keywords
+*** to get photos with specific keywords
