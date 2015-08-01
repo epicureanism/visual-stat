@@ -17,12 +17,14 @@ Implemnt these stuff while the August hackathon in GIS.FCU.
 ### About the json 
 #### Interface
 The format of criteria is like:
+```javascript
 { 
   "bbox": [20,-40,60,40], 
   "date_taken": "2008-02-15/2009-03-14"
 }
-
+```
 #### The Photo in JSON
+```javascript
 [{
   "id": "1234", 
   "url_l": "http://www.flickr.com/",
@@ -32,11 +34,16 @@ The format of criteria is like:
   "owner": "Somebody",
   "date_taken": "2015-08-01T10:28:00+08:00"
 }]
+```
 
 ### to get photos
+```
 cd crawler/flickr_api
+```
 
 #### to get interesting photos
+```
 python geo_photos.py
+```
 
 #### to get photos with specific keywords
