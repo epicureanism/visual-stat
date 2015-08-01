@@ -1,0 +1,22 @@
+<html>
+<body>
+  <div id="container"></div>
+  <script src="https://code.jquery.com/jquery-2.1.4.min.js" />
+  <script>
+  $(function(){
+    console.log("json");
+    $.ajax({
+      url: "http://localhost:1234",
+      dataType: "json",
+      data: {
+        "bbox": [20,-40,60,40], //optional
+        "date_taken": "2008-02-15/2009-03-14" //optional
+      }
+    }).done(function(rs){
+        $("#container").html(rs);
+        console.log(rs);
+    });
+  });
+  </script>
+</body>
+</html>
