@@ -1,2 +1,6 @@
 # visual-stat
-try some visualize statistics open source solution 
+## About this project
+Try some visualize statistics open source solution.
+Implemnt these stuff while the August hackathon in GIS.FCU.
+
+## How to use
