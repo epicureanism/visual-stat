@@ -19,8 +19,8 @@ Implemnt these stuff while the August hackathon in GIS.FCU.
 The format of criteria is like:
 ```javascript
 { 
-  "bbox": [20,-40,60,40], 
-  "date_taken": "2008-02-15/2009-03-14"
+  "bbox": [20,-40,60,40], //optional
+  "date_taken": "2008-02-15/2009-03-14" //optional
 }
 ```
 #### The Photo in JSON
