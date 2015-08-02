@@ -4,7 +4,7 @@ Try some visualize statistics open source solutions.
 Implemnt these stuff while the August hackathon in GIS.FCU.
 
 ## Solutions we adopted
- - flickr_api
+ - [flickr_api](https://github.com/alexis-mignon/python-flickr-api)
  - sqlite3: both in python and nodejs
  - json api based on nodejs with express/body-parser
  - vis, for timeline 
@@ -13,14 +13,12 @@ Implemnt these stuff while the August hackathon in GIS.FCU.
 ```
 cd crawler/flickr_api
 ```
-  ### if u want to get interesting photos
-
+- if u want to get interesting photos
 ```
 python geo_photos.py
 ```
-
- ### to get photos with specific keywords
- ```
+- to get photos with specific keywords
+```
 python search.py
 ```
 ## The db schema
