@@ -10,16 +10,17 @@ Implemnt these stuff while the August hackathon in GIS.FCU.
  - vis, for timeline 
 
 ## How to use
-```
-cd crawler/flickr_api
-```
 - if u want to get interesting photos
 ```
-python geo_photos.py
+python crawler/flickr_api/geo_photos.py
 ```
 - to get photos with specific keywords
 ```
-python search.py
+python crawler/flickr_api/search.py
+```
+- Startup the JSON API, which the listening port can be specified as you like
+```javascript
+node services/express_search.js 1234
 ```
 ## The db schema
 We extract the metadat of photos into the SQLite DB.
@@ -34,10 +35,6 @@ We extract the metadat of photos into the SQLite DB.
 - date_taken text
 
 ## About the JSON API
-- Startup the JSON API, which the listening port can be specified as you like
-```javascript
-node services/express_search.js 1234
-```
 - The format of criteria is like:
 ```javascript
 { 
