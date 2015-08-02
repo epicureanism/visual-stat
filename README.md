@@ -24,16 +24,15 @@ python search.py
 ## The db schema
 We extract the metadat of photos into the SQLite DB.
   The schema is as follows:
-    * id text,
-    * url_l text,
-    * title  text,
-    * longitude real,
-    * latitude real,
-    * owner text,
-    * date_upload text,
-    * date_taken text
-  * About the json 
-    * Interface
+- id text,
+- url_l text,
+- title  text,
+- longitude real,
+- latitude real,
+- owner text,
+- date_upload text,
+- date_taken text
+
 ## About the JSON API
 - Startup the JSON API, which the listening port can be specified as you like
 ```javascript
