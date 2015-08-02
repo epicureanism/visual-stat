@@ -6,6 +6,44 @@
     <meta charset="utf-8">
     <script type="text/javascript" src="./js/jquery-latest.js"></script>
     <script type="text/javascript" src="./js/jquery.layout-latest.js"></script>
+    <script src="./js/vis.js"></script>
+    <link href="./css/vis.css" rel="stylesheet" type="text/css">
+    <style type="text/css">
+        body, html
+        {
+            font-family: sans-serif;
+            font-size: 10pt;
+        }
+        
+        .vis.timeline .item
+        {
+            border-color: #acacac;
+            background-color: #efefef;
+            box-shadow: 5px 5px 10px rgba(128,128,128, 0.3);
+        }
+        
+        table .description
+        {
+            font-style: italic;
+        }
+        
+        #visualization
+        {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .logo
+        {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+        }
+        .logo img
+        {
+            width: 120px;
+        }
+    </style>
     <script type="text/javascript">
         $(document).ready(function () {
             $('body').layout({ applyDemoStyles: true });
@@ -19,19 +57,20 @@
             padding: 0;
         }
     </style>
-    <script src="https://maps.googleapis.com/maps/api/js?sensor=false&language=zh-tw"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
     <!-- Add Google map marker cluster-->
-    <script src="./lib/markercluster.js"></script>
-    <script src="./data/data.js"></script>
+    <script src="lib/markercluster.js"></script>
+    <script src="data/data.js"></script>
     <!-- Add jQuery library -->
     <!--<script type="text/javascript" src="lib/jquery-1.10.2.js"></script>-->
     <!-- Add fancyBox main JS and CSS files -->
-    <script type="text/javascript" src="./lib/fancybox/jquery.fancybox.js?v=2.1.5"></script>
-    <link rel="stylesheet" type="text/css" href="./lib/fancybox/jquery.fancybox.css?v=2.1.5"
+    <script type="text/javascript" src="lib/fancybox/jquery.fancybox.js?v=2.1.5"></script>
+    <link rel="stylesheet" type="text/css" href="lib/fancybox/jquery.fancybox.css?v=2.1.5"
         media="screen" />
     <script>
         var _datas;
-        var _mapObject;
+        var timelineData = [];
+        var map;
 
         function ShowPicture(url) {
             $.fancybox.open({
@@ -68,6 +107,8 @@
                 });
 
                 markers.push(marker);
+
+                timelineData.push({ id: datas[numOfIndex].id, content: '<img id="' + datas[numOfIndex].id + '" src="' + datas[numOfIndex].url_l + '" style="width:50px; height:50px;" onclick="setImage(this);">', start: datas[numOfIndex].date_taken });
             }
 
             $("#photo").html(divPhotoContent);
@@ -75,15 +116,21 @@
             if (markers.length == 0) {
                 //$("#fotorama").html("您尚未上傳照片");
             }
-            var markerCluster = new MarkerClusterer(_mapObject, markers);
+            var markerCluster = new MarkerClusterer(map, markers);
         }
 
         //reload photo
         function loadData() {
             linkData(__datas);
-            return;
 
-            $.getJSON("./data/data.json", function (data) {
+            var container = document.getElementById('mytimeline');
+            var options = {};
+            var timeline = new vis.Timeline(container, timelineData, options);
+
+            return true;
+
+
+            $.getJSON("data/data.json", function (data) {
 
             })
             .done(function (datas) {
@@ -198,36 +245,43 @@
             _marker.setMap(mapObject);
         }
 
+        function setImage(obj) {
 
-        // -----------oogle map initialize : start-----------
-        function initialize() {
-            var mapOptions = {
-                center: new google.maps.LatLng(23.5, 121),
-                zoom: 7,
-                mapTypeId: google.maps.MapTypeId.ROADMAP
-            };
-            _mapObject = new google.maps.Map(document.getElementById("map_canvas"),
-                   mapOptions);
-
-            loadData();
+            $("#imgSrc").attr("src", $("#" + obj.id).attr("src"));
 
         }
-        // -----------google map initialize : end-----------
+    </script>
+    <script>
 
-   
+        function initialize() {
+            map = new google.maps.Map(document.getElementById('map-canvas'), {
+                zoom: 8,
+                center: { lat: 23.5, lng: 121.5 }
+            });
+
+            loadData();
+        }
+
+        google.maps.event.addDomListener(window, 'load', initialize);
+        //google.maps.event.trigger(map, "resize");
+        
     </script>
 </head>
-<body onload="initialize()">
+<body>
     <div class="ui-layout-center">
-        <div id="map_canvas">
+        <div id="map-canvas">
         </div>
     </div>
     <!--<div class="ui-layout-north">North</div>-->
     <div class="ui-layout-south">
-        Timeline</div>
-    <div class="ui-layout-east">
-        <div id="photo" style="width: 100%; height: 60px; position: fixed; background-color: #eeeeee">
+        <!--<div id="photo" style="width: 100%; height: 60px; position: fixed; background-color: #eeeeee">
+        </div>-->
+        <div id="mytimeline">
         </div>
+    </div>
+    </div>
+    <div class="ui-layout-east">
+        <img id="imgSrc" alt="Open Source" width="100%" />
     </div>
     <!--<div class="ui-layout-west">West</div>-->
 </body>
