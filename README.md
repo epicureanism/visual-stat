@@ -10,7 +10,7 @@ Implemnt these stuff while the August hackathon in GIS.FCU.
  - vis, for timeline 
 
 ## How to use
-- if u want to get interesting photos
+- if u want to get the interesting photos
 ```
 python crawler/flickr_api/geo_photos.py
 ```
@@ -23,8 +23,10 @@ python crawler/flickr_api/search.py
 node services/express_search.js 1234
 ```
 ## The db schema
-We extract the metadat of photos into the SQLite DB.
-  The schema is as follows:
+We extract the metadat of photos into the SQLite DB located at crawler/flickr_api/flickr.db.
+The "interesting photos" will be stored in the table of "interesting_photo".
+The photos searched by the specific keyword will be stored in the table of "search_photo".
+  The schema of either table is as follows:
 - id text,
 - url_l text,
 - title  text,
