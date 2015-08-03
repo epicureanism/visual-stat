@@ -7,7 +7,7 @@ var sqlite3 = require('sqlite3').verbose();
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(jsonParser);
-app.post('/', function (req, res) {
+app.get('/', function (req, res) {
 
   var criteria = req.body;
   var minx,miny,maxx,maxy;
@@ -68,7 +68,7 @@ app.post('/', function (req, res) {
   allProbes(function(err, all) {
     result = all;
     if (result) {
-      console.log(result);
+      //console.log(result);
       res.json(result);
     } else {
       res.writeHead(404);

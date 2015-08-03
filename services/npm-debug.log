@@ -1,0 +1,58 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'c:\\Program Files (x86)\\nodejs\\node.exe',
+1 verbose cli   'c:\\Program Files (x86)\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'install',
+1 verbose cli   'sqlite3' ]
+2 info using npm@1.1.37
+3 info using node@v0.6.20
+4 verbose config file C:\Users\ricky\.npmrc
+5 verbose config file c:\Program Files (x86)\nodejs\etc\npmrc
+6 verbose config file c:\Program Files (x86)\nodejs\node_modules\npm\npmrc
+7 verbose read json d:\github\visual-stat\services\package.json
+8 verbose read json d:\github\visual-stat\services\package.json
+9 verbose cache add [ 'sqlite3', null ]
+10 silly cache add name=undefined spec="sqlite3" args=["sqlite3",null]
+11 verbose parsed url { pathname: 'sqlite3', path: 'sqlite3', href: 'sqlite3' }
+12 silly lockFile b54e393c-sqlite3 sqlite3
+13 verbose lock sqlite3 C:\Users\ricky\AppData\Roaming\npm-cache\b54e393c-sqlite3.lock
+14 silly lockFile b54e393c-sqlite3 sqlite3
+15 verbose addNamed [ 'sqlite3', '' ]
+16 verbose addNamed [ null, '' ]
+17 silly lockFile b9879749-sqlite3 sqlite3@
+18 verbose lock sqlite3@ C:\Users\ricky\AppData\Roaming\npm-cache\b9879749-sqlite3.lock
+19 silly addNameRange { name: 'sqlite3', range: '', hasData: false }
+20 verbose url raw sqlite3
+21 verbose url resolving [ 'https://registry.npmjs.org/', './sqlite3' ]
+22 verbose url resolved https://registry.npmjs.org/sqlite3
+23 info retry registry request attempt 1 at 15:26:57
+24 http GET https://registry.npmjs.org/sqlite3
+25 info retry will retry, error on last attempt: Error: SSL Error: CERT_UNTRUSTED
+26 info retry registry request attempt 2 at 15:27:09
+27 http GET https://registry.npmjs.org/sqlite3
+28 info retry will retry, error on last attempt: Error: SSL Error: CERT_UNTRUSTED
+29 info retry registry request attempt 3 at 15:28:11
+30 http GET https://registry.npmjs.org/sqlite3
+31 silly lockFile b9879749-sqlite3 sqlite3@
+32 error Error: SSL Error: CERT_UNTRUSTED
+32 error     at ClientRequest.<anonymous> (c:\Program Files (x86)\nodejs\node_modules\npm\node_modules\request\main.js:440:26)
+32 error     at ClientRequest.g (events.js:156:14)
+32 error     at ClientRequest.emit (events.js:67:17)
+32 error     at HTTPParser.parserOnIncomingClient [as onIncoming] (http.js:1256:7)
+32 error     at HTTPParser.parserOnHeadersComplete [as onHeadersComplete] (http.js:91:29)
+32 error     at CleartextStream.socketOnData [as ondata] (http.js:1288:20)
+32 error     at CleartextStream._push (tls.js:375:27)
+32 error     at SecurePair.cycle (tls.js:734:20)
+32 error     at EncryptedStream.write (tls.js:130:13)
+32 error     at Socket.ondata (stream.js:38:26)
+32 error  [Error: SSL Error: CERT_UNTRUSTED]
+33 error You may report this log at:
+33 error     <http://github.com/isaacs/npm/issues>
+33 error or email it to:
+33 error     <npm-@googlegroups.com>
+34 error System Windows_NT 6.1.7601
+35 error command "c:\\Program Files (x86)\\nodejs\\node.exe" "c:\\Program Files (x86)\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "install" "sqlite3"
+36 error cwd d:\github\visual-stat\services
+37 error node -v v0.6.20
+38 error npm -v 1.1.37
+39 error message SSL Error: CERT_UNTRUSTED
+40 verbose exit [ 1, true ]
