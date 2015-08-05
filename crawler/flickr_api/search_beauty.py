@@ -53,7 +53,7 @@ def do_search(keyword, page=1, page_size=500, has_geo=True):
         per_page=page_size)
     conn = sqlite3.connect("flickr.db")
     sql = '''
-            create table if not exists search_photos (
+            create table if not exists search_beauty (
             id text,
             url_l text,
             title  text,
@@ -76,16 +76,16 @@ def do_search(keyword, page=1, page_size=500, has_geo=True):
         #             (id, url_l, title, longitude, latitude)
         #             values (?, ?, ?, ?, ?);
         #             '''
-        sql = '''insert into search_photos
+        sql = '''insert into search_beauty
                     (id, url_l, title, longitude, latitude,date_upload,date_taken,owner,tags)
                     select ?, ?, ?, ?, ?,?,?,?,?
-                    where ? not in (select id from search_photos);
+                    where ? not in (select id from search_beauty);
                     '''
         # print sql
         conn.execute(sql, (photo.id, photo.url_l, photo.title, photo.longitude, photo.latitude, photo.dateupload,photo.datetaken,photo.ownername,photo.tags,photo.id))
     conn.commit()
 
-    sql = "select count(*) from search_photos;"
+    sql = "select count(*) from search_beauty;"
     cur.execute(sql)
     print "Got {0} records of keyword {1}, total photos count is {2} ".format(len(photos), keyword, cur.fetchone())
 # print photos
